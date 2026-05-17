@@ -23,7 +23,7 @@ services:
 
   # ===== LFI Lab (PHP) =====
   lfi:
-    build: ./lfi
+    build: ./lab-1
     container_name: lab-lfi
     ports:
       - "6001:80"
@@ -40,7 +40,7 @@ services:
 
   # ===== SQLi Lab (PHP + SQLite) =====
   sqli:
-    build: ./sqli
+    build: ./lab-2
     container_name: lab-sqli
     ports:
       - "6002:80"
@@ -57,7 +57,7 @@ services:
 
   # ===== JWT Lab (Node.js Express) =====
   jwt:
-    build: ./jwt
+    build: ./lab-3
     container_name: lab-jwt
     ports:
       - "6004:3000"
@@ -74,7 +74,7 @@ services:
 
   # ===== CMDi Lab (Flask) =====
   cmdi:
-    build: ./cmdi-flask
+    build: ./lab-4
     container_name: lab-cmdi
     ports:
       - "6005:5000"
@@ -91,7 +91,7 @@ services:
 
   # ===== Path Traversal Lab (Express) =====
   traversal:
-    build: ./traversal-express
+    build: ./lab-5
     container_name: lab-traversal
     ports:
       - "6006:3000"
