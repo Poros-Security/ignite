@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}NetOps Toolkit | History{% endblock %}
+
+{% block content %}
+<main class="workspace history-only">
+  <section class="input-panel">
+    <h2>Execution History</h2>
+    <p class="panel-copy">Last 10 commands executed through NetOps Toolkit.</p>
+  </section>
+
+  <section class="output-panel history-panel">
+    <div class="output-head">
+      <div class="command-line">Recent logged activity</div>
+      <div class="output-tools">
+        <span class="last-run">{{ rows|length }} entries</span>
+      </div>
+    </div>
+
+    <div class="history-wrap">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Tool</th>
+            <th>Command</th>
+            <th>Status</th>
+            <th>User Agent</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if rows %}
+            {% for row in rows %}
+            <tr>
+              <td>{{ row['created_at'] }}</td>
+              <td>{{ row['tool'] }}</td>
+              <td class="cmd">{{ row['command_text'] }}</td>
+              <td class="{{ 'status-ok' if row['run_status'] == 'success' else 'status-fail' }}">{{ row['run_status'] }}</td>
+              <td class="ua">{{ row['user_agent'] }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="empty">No history data yet.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+{% endblock %}

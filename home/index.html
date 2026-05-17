@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="POROS Labs - Interactive training labs for web security practice">
+    <title>POROS Labs - Training Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f7f8fa;
+            color: #1e293b;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3rem;
+            height: 60px;
+            background: #fff;
+            border-bottom: 1px solid #eaecf0;
+        }
+
+        .topbar__brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .topbar__logo {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(140deg, #6d28d9, #4338ca);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .topbar__name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .topbar__name span {
+            color: #6d28d9;
+        }
+
+        .topbar__meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .topbar__version {
+            font-size: 0.75rem;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .topbar__status {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .topbar__dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem 4rem;
+        }
+
+        .header {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+
+        .header__eyebrow {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #7c3aed;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .header__title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .header__subtitle {
+            font-size: 1.1rem;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Section label */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .section-label__text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .section-label__line {
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+            max-width: 300px;
+        }
+
+        /* Cards */
+        .labs {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .labs__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #eaecf0;
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.8rem;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+            border-color: #d1d5db;
+        }
+
+        .card__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .card__icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .card--lfi .card__icon {
+            background: #f5f3ff;
+            color: #7c3aed;
+        }
+
+        .card--sqli .card__icon {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .card--jwt .card__icon {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .card--cmdi .card__icon {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .card--traversal .card__icon {
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .card__badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-radius: 6px;
+        }
+
+        .badge--type {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .badge--easy {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .badge--medium {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .card__title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .card__desc {
+            font-size: 0.95rem;
+            color: #6b7280;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .card__footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .card__tech {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            font-family: monospace;
+        }
+
+        .card__btn {
+            background: #111827;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.18s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card__btn:hover {
+            background: #374151;
+        }
+
+        .card__btn i {
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 1.5rem 3rem;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            border-top: 1px solid #eaecf0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+        }
+
+        .footer__right {
+            color: #d1d5db;
+        }
+
+        @media (max-width: 720px) {
+            .topbar {
+                padding: 0 1.5rem;
+            }
+
+            .labs__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header__title {
+                font-size: 2rem;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="topbar">
+        <div class="topbar__brand">
+            <span class="topbar__name"><span>POROS</span> Incubation</span>
+        </div>
+        <div class="topbar__meta">
+            <span class="topbar__version">v1.0.0</span>
+            <div class="topbar__status"><span class="topbar__dot"></span> All systems online</div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <header class="header">
+            <div class="header__eyebrow"><i class='bx bx-flask'></i> Incubation Labs</div>
+            <h1 class="header__title">Hands-On Security Labs</h1>
+            <p class="header__subtitle">Choose a challenge below to practice web security techniques. Each module is
+                isolated and self-contained to simulate real-world product vulnerabilities.</p>
+        </header>
+
+        <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">Available Modules</span>
+            <div class="section-label__line"></div>
+        </div>
+
+        <main class="labs">
+            <div class="labs__grid">
+                <article class="card card--lfi">
+                    <div class="card__header">
+                        <div class="card__icon"><i class='bx bx-folder-open'></i></div>
+                        <div class="card__badges">
+                            <span class="badge badge--type">LFI</span>
+                            <span class="badge badge--easy">Easy</span>
+                        </div>
+                    </div>
+                    <h2 class="card__title">Local File Inclusion</h2>
+                    <p class="card__desc">A file viewer with basic input filtering. Investigate the path traversal flaws
+                        to peek beyond the intended directory scope.</p>
+                    <div class="card__footer">
+                        <span class="card__tech">PHP · Port 6001</span>
+                        <a href="http://localhost:6001" class="card__btn" id="btn-lfi">Launch Lab <i
+                                class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </article>
+
+                <article class="card card--sqli">
+                    <div class="card__header">
+                        <div class="card__icon"><i class='bx bx-data'></i></div>
+                        <div class="card__badges">
+                            <span class="badge badge--type">SQLi</span>
+                            <span class="badge badge--easy">Easy</span>
+                        </div>
+                    </div>
+                    <h2 class="card__title">SQL Injection</h2>
+                    <p class="card__desc">A login form backed by SQLite. Experience a scenario where mild filtering
+                        blocks obvious payloads, but logic gaps remain.</p>
+                    <div class="card__footer">
+                        <span class="card__tech">SQLite · Port 6002</span>
+                        <a href="http://localhost:6002" class="card__btn" id="btn-sqli">Launch Lab <i
+                                class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </article>
+
+                <article class="card card--jwt">
+                    <div class="card__header">
+                        <div class="card__icon"><i class='bx bx-key'></i></div>
+                        <div class="card__badges">
+                            <span class="badge badge--type">JWT</span>
+                            <span class="badge badge--medium">Medium</span>
+                        </div>
+                    </div>
+                    <h2 class="card__title">JWT Auth Weakness</h2>
+                    <p class="card__desc">Token-based authentication suffering from a weak signing secret and algorithm
+                        confusion. Forge your token to escalate privileges.</p>
+                    <div class="card__footer">
+                        <span class="card__tech">Node.js · Port 6004</span>
+                        <a href="http://localhost:6004" class="card__btn" id="btn-jwt">Launch Lab <i
+                                class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </article>
+
+                <article class="card card--cmdi">
+                    <div class="card__header">
+                        <div class="card__icon"><i class='bx bx-terminal'></i></div>
+                        <div class="card__badges">
+                            <span class="badge badge--type">CMDi</span>
+                            <span class="badge badge--medium">Medium</span>
+                        </div>
+                    </div>
+                    <h2 class="card__title">Command Injection</h2>
+                    <p class="card__desc">A network utility console that executes shell commands with unsafe input
+                        handling. Inject chained commands to pivot beyond intended diagnostics.</p>
+                    <div class="card__footer">
+                        <span class="card__tech">Flask · Port 6005</span>
+                        <a href="http://localhost:6005" class="card__btn" id="btn-cmdi">Launch Lab <i
+                                class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </article>
+
+                <article class="card card--traversal">
+                    <div class="card__header">
+                        <div class="card__icon"><i class='bx bx-file-find'></i></div>
+                        <div class="card__badges">
+                            <span class="badge badge--type">Traversal</span>
+                            <span class="badge badge--medium">Medium</span>
+                        </div>
+                    </div>
+                    <h2 class="card__title">Path Traversal</h2>
+                    <p class="card__desc">A document vault file viewer that trusts user-controlled paths. Escape the
+                        intended repository and access sensitive files outside the sandbox.</p>
+                    <div class="card__footer">
+                        <span class="card__tech">Express · Port 6006</span>
+                        <a href="http://localhost:6006" class="card__btn" id="btn-traversal">Launch Lab <i
+                                class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <span>Incubation · POROS Security 2026</span>
+        <span class="footer__right">For educational purposes only</span>
+    </footer>
+</body>
+
+</html>

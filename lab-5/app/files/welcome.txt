@@ -1,0 +1,3 @@
+Welcome to the path traversal lab.
+
+Try exploring how this app resolves file paths.

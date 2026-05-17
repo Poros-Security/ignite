@@ -1,0 +1,112 @@
+# ================================
+# Lab Inkubasi — Docker Compose
+# ================================
+# Run: docker compose up -d
+# Stop: docker compose down
+# ================================
+
+services:
+  # ===== Home Dashboard =====
+  home:
+    build: ./home
+    container_name: lab-home
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    networks:
+      - lab-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  # ===== LFI Lab (PHP) =====
+  lfi:
+    build: ./lfi
+    container_name: lab-lfi
+    ports:
+      - "6001:80"
+    environment:
+      - FLAG=ignite{l0c4l_f1l3_1nclus10n_m4st3r}
+    restart: unless-stopped
+    networks:
+      - lab-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  # ===== SQLi Lab (PHP + SQLite) =====
+  sqli:
+    build: ./sqli
+    container_name: lab-sqli
+    ports:
+      - "6002:80"
+    environment:
+      - FLAG=ignite{sql_1nj3ct10n_byp4ss3d}
+    restart: unless-stopped
+    networks:
+      - lab-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  # ===== JWT Lab (Node.js Express) =====
+  jwt:
+    build: ./jwt
+    container_name: lab-jwt
+    ports:
+      - "6004:3000"
+    environment:
+      - FLAG=ignite{jwt_t0k3n_f0rg3d_succ3ss}
+    restart: unless-stopped
+    networks:
+      - lab-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  # ===== CMDi Lab (Flask) =====
+  cmdi:
+    build: ./cmdi-flask
+    container_name: lab-cmdi
+    ports:
+      - "6005:5000"
+    environment:
+      - PORT=5000
+    restart: unless-stopped
+    networks:
+      - lab-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  # ===== Path Traversal Lab (Express) =====
+  traversal:
+    build: ./traversal-express
+    container_name: lab-traversal
+    ports:
+      - "6006:3000"
+    environment:
+      - PORT=3000
+    restart: unless-stopped
+    networks:
+      - lab-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+# ===== Network =====
+networks:
+  lab-network:
+    driver: bridge

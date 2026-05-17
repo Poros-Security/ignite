@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}NetOps Toolkit{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">NetOps Toolkit</div>
+        <div class="brand-sub">Internal Diagnostics</div>
+
+        <nav class="side-nav">
+          <a href="{{ url_for('ping_tool') }}" class="side-link {% if active_page == 'ping' %}active{% endif %}">
+            <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 8h10"/><path d="M4 16h7"/></svg></span>
+            <span>Ping Utility</span>
+          </a>
+          <a href="{{ url_for('nslookup_tool') }}" class="side-link {% if active_page == 'nslookup' %}active{% endif %}">
+            <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/></svg></span>
+            <span>DNS Lookup</span>
+          </a>
+          <a href="{{ url_for('traceroute_tool') }}" class="side-link {% if active_page == 'traceroute' %}active{% endif %}">
+            <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h6v6H3z"/><path d="M15 12h6v6h-6z"/><path d="M9 9h6v6H9z"/></svg></span>
+            <span>Traceroute</span>
+          </a>
+          <a href="{{ url_for('history_page') }}" class="side-link {% if active_page == 'history' %}active{% endif %}">
+            <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg></span>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+
+      <section class="quick-targets">
+        <h3>Quick Targets</h3>
+        <button type="button" class="target-btn" data-target="8.8.8.8">8.8.8.8</button>
+        <button type="button" class="target-btn" data-target="localhost">localhost</button>
+        <button type="button" class="target-btn" data-target="google.com">google.com</button>
+      </section>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div class="topbar-title">NetOps Toolkit v2.1.4</div>
+        <div class="topbar-user">operator: ian.carter · role: netops-l2</div>
+      </header>
+
+      <section class="disclaimer">
+        For authorized IT staff only. All activity is logged.
+      </section>
+
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

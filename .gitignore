@@ -1,0 +1,9 @@
+.vscode
+.idea
+.env
+node_modules/
+*.db
+*.db-journal
+
+solves/
+TA.md

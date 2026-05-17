@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}NetOps Toolkit | {{ tool.title }}{% endblock %}
+
+{% block content %}
+<main class="workspace">
+  <section class="input-panel">
+    <h2>{{ tool.title }}</h2>
+    <p class="panel-copy">{{ tool.description }}</p>
+
+    <form method="post" class="command-form js-loading-form">
+      <label class="section-label" for="target-input">Target Host</label>
+      <input id="target-input" name="target" type="text" value="{{ target }}" placeholder="{{ tool.placeholder }}" autocomplete="off" required />
+      <button class="run-btn" type="submit" data-loading-text="EXECUTING...">EXECUTE</button>
+    </form>
+  </section>
+
+  <section class="output-panel">
+    <div class="output-head">
+      <div class="command-line">Running: <span>{{ run_data.command_text if run_data.command_text else '(pending execution)' }}</span></div>
+      <div class="output-tools">
+        <button type="button" class="tool-btn" id="clear-output">Clear</button>
+        <button type="button" class="tool-btn" id="copy-output">Copy</button>
+        <span class="last-run">{{ run_data.last_run_at }}</span>
+      </div>
+    </div>
+
+    <pre id="terminal-output" class="terminal {% if run_data.run_status == 'success' %}ok{% elif run_data.run_status == 'error' %}fail{% endif %}">{{ run_data.output_text if run_data.output_text else 'No command executed yet.' }}</pre>
+  </section>
+</main>
+{% endblock %}
