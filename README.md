@@ -1,4 +1,4 @@
-# Lab Inkubasi POROS 2026
+# Lab POROS 2026
 
 Interactive web training labs for CTF workshop practice. Lightweight, modular, and Docker-based.
 
@@ -50,8 +50,8 @@ Interactive web training labs for CTF workshop practice. Lightweight, modular, a
 ### Clone & Run
 
 ```bash
-git clone https://github.com/poros-security/lab-inkubasi.git
-cd lab-inkubasi
+git clone https://github.com/poros-security/ignite.git
+cd ignite
 docker compose up -d
 ```
 
